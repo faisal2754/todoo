@@ -26,14 +26,21 @@
       h1 {
         font-size: 2.5rem;
         font-weight: 400;
+        text-align: center;
       }
 
       .authContainer {
+        @include flex-col;
         max-width: 100%;
         width: 50rem;
         height: 35rem;
         background-color: rgba(0, 0, 0, 0.6);
         border-radius: 10px;
+
+        button {
+          padding: 1rem;
+          cursor: pointer;
+        }
       }
     }
   }

@@ -1,0 +1,31 @@
+@use './mixin' as *;
+
+.home {
+  @include flex;
+
+  .lists {
+    position: relative;
+    min-width: 10%;
+    width: 20rem;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.75);
+
+    canvas {
+      position: absolute;
+      width: inherit;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .content {
+      height: inherit;
+      padding: 2rem;
+    }
+  }
+
+  .main {
+    flex-grow: 1;
+    background-color: #262626;
+    height: 100vh;
+  }
+}

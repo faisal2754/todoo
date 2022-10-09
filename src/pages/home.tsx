@@ -1,17 +1,15 @@
 import { useEffect, useRef } from 'react'
-import { signIn, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 
-import s from '@/styles/splash.module.scss'
+import s from '@/styles/home.module.scss'
 import { col, R, G, B } from '@/utils/animation'
+import Lists from '@/components/lists'
 
 const SPEED = 0.05
 
-const Splash = () => {
-  const { data, status } = useSession()
+const Home = () => {
+  const { data: session, status } = useSession()
   const canvasRef = useRef<HTMLCanvasElement>(null)
-
-  console.log(data)
-  console.log(status)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -40,23 +38,17 @@ const Splash = () => {
   }, [])
 
   return (
-    <div className={s.splash}>
-      <div className={s.container}>
+    <div className={s.home}>
+      <div className={s.lists}>
         <canvas ref={canvasRef} width='32px' height='32px' />
-        <main className={s.main}>
-          <h1>A Convenient Todo App</h1>
-          <div className={s.authContainer}>
-            <button
-              className={s.googleBtn}
-              onClick={() => signIn('google', { callbackUrl: '/home' })}
-            >
-              Sign in with Google
-            </button>
-          </div>
-        </main>
+        <div className={s.content}>
+          <Lists session={session} status={status} />
+        </div>
       </div>
+      <main className={s.main}>
+        <h1>Your items</h1>
+      </main>
     </div>
   )
 }
-
-export default Splash
+export default Home

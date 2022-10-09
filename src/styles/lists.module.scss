@@ -1,0 +1,6 @@
+@use './mixin' as *;
+
+.lists {
+  @include flex-col;
+  height: 100%;
+}
