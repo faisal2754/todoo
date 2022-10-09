@@ -1,3 +1,5 @@
+@use './mixin' as *;
+
 .splash {
   height: 100vh;
   width: 100vw;
@@ -16,10 +18,23 @@
       z-index: -1;
     }
 
-    .main {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    main {
+      @include flex-col;
+      gap: 2rem;
+      padding: 2rem;
+
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 400;
+      }
+
+      .authContainer {
+        max-width: 100%;
+        width: 50rem;
+        height: 35rem;
+        background-color: rgba(0, 0, 0, 0.6);
+        border-radius: 10px;
+      }
     }
   }
 }

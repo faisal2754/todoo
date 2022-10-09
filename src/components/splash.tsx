@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { signIn } from 'next-auth/react'
 
 import s from '@/styles/splash.module.scss'
 import { col, R, G, B } from '@/utils/animation'
@@ -40,6 +41,11 @@ const Splash = () => {
         <canvas ref={canvasRef} width='32px' height='32px' />
         <main className={s.main}>
           <h1>A convenient Todo app</h1>
+          <div className={s.authContainer}>
+            <button className={s.googleBtn} onClick={() => signIn('google')}>
+              Sign in with Google
+            </button>
+          </div>
         </main>
       </div>
     </div>
