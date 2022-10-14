@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react'
 import s from '@/styles/home.module.scss'
 import { col, R, G, B } from '@/utils/animation'
 import Lists from '@/components/lists'
+import TodoCard from '@/components/todoCard'
 
 const SPEED = 0.05
 
@@ -47,6 +48,7 @@ const Home = () => {
       </div>
       <main className={s.main}>
         <h1>Your items</h1>
+        <TodoCard />
       </main>
     </div>
   )

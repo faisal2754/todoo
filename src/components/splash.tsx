@@ -52,6 +52,12 @@ const Splash = () => {
             >
               Sign in with Google
             </button>
+            <button
+              className={s.githubBtn}
+              onClick={() => signIn('github', { callbackUrl: '/home' })}
+            >
+              Sign in with Github
+            </button>
           </div>
         </main>
       </div>

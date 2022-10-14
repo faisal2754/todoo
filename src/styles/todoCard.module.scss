@@ -1,0 +1,124 @@
+@use './mixin' as *;
+
+.todoCard {
+  @include flex;
+  justify-content: flex-start;
+  width: 40rem;
+  max-width: 50rem;
+  padding: 1.5rem;
+  border: 1px solid white;
+  border-radius: $radius;
+
+  .check {
+    position: relative;
+    scale: 0.3;
+    margin-right: 3rem;
+
+    input[type='checkbox'] {
+      display: none;
+    }
+
+    label {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      left: 0;
+      width: 100px;
+      height: 100px;
+      margin: 0 auto;
+      background-color: #f72414;
+      transform: translateY(-50%);
+      border-radius: 50%;
+      box-shadow: 0 7px 10px #ffbeb8;
+      cursor: pointer;
+      transition: 0.2s ease transform, 0.2s ease background-color,
+        0.2s ease box-shadow;
+      overflow: hidden;
+      z-index: 1;
+      border: 2px solid rgba(0, 0, 0, 0.44);
+    }
+
+    label:before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 0;
+      left: 0;
+      width: 70px;
+      height: 70px;
+      margin: 0 auto;
+      background-color: #fff;
+      transform: translateY(-50%);
+      border-radius: 50%;
+      box-shadow: inset 0 7px 10px #ffbeb8;
+      transition: 0.2s ease width, 0.2s ease height;
+      border: 1px solid black;
+    }
+
+    label:hover:before {
+      width: 55px;
+      height: 55px;
+      box-shadow: inset 0 7px 10px #ff9d96;
+    }
+
+    label:active {
+      transform: translateY(-50%) scale(0.9);
+    }
+
+    .tick {
+      position: absolute;
+      top: -1px;
+      right: 0;
+      left: 0;
+      width: 60px;
+      height: 60px;
+      margin: 0 auto;
+      margin-left: 14px;
+      transform: rotateZ(-40deg);
+    }
+
+    .tick:before,
+    .tick:after {
+      content: '';
+      position: absolute;
+      background-color: #fff;
+      border-radius: 2px;
+      opacity: 0;
+      transition: 0.2s ease transform, 0.2s ease opacity;
+    }
+
+    .tick:before {
+      left: 0;
+      bottom: 0;
+      width: 10px;
+      height: 30px;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.23);
+      transform: translateY(-68px);
+    }
+
+    .tick:after {
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 10px;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.23);
+      transform: translateX(78px);
+    }
+
+    input[type='checkbox']:checked + label {
+      background-color: #07d410;
+      box-shadow: 0 7px 10px #92ff97;
+    }
+
+    input[type='checkbox']:checked + label:before {
+      width: 0;
+      height: 0;
+    }
+
+    input[type='checkbox']:checked + label .tick:before,
+    input[type='checkbox']:checked + label .tick:after {
+      transform: translate(0);
+      opacity: 1;
+    }
+  }
+}
