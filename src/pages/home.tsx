@@ -47,8 +47,8 @@ const Home = () => {
         </div>
       </div>
       <main className={s.main}>
-        <h1>Your items</h1>
-        <TodoCard />
+        <h1 className={s.heading}>Your items</h1>
+        <TodoCard initialCheck={true} text='your text' />
       </main>
     </div>
   )

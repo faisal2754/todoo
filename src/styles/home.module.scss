@@ -24,8 +24,15 @@
   }
 
   .main {
+    @include flex-col;
+    justify-content: flex-start;
     flex-grow: 1;
     background-color: $clr-primary;
     height: 100vh;
+    padding: 2rem;
+
+    .heading {
+      margin-bottom: 2rem;
+    }
   }
 }
