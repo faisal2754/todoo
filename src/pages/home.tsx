@@ -40,10 +40,19 @@ const Home = () => {
 
   return (
     <div className={s.home}>
-      <div className={s.lists}>
+      <div className={s.hero}>
         <canvas ref={canvasRef} width='32px' height='32px' />
-        <div className={s.content}>
-          <Lists session={session} status={status} />
+        <header className={s.header}>
+          <h1>test</h1>
+          {/* <Lists session={session} status={status} /> */}
+        </header>
+        <div className={s.newItem}>
+          <div className={s.input}>
+            <input type='text' placeholder='Add an item' />
+            <div className={s.icon} title='Add item'>
+              +
+            </div>
+          </div>
         </div>
       </div>
       <main className={s.main}>
