@@ -1,10 +1,10 @@
-import { useEffect, useRef } from 'react'
 import { useSession } from 'next-auth/react'
+import Image from 'next/image'
+import { useEffect, useRef } from 'react'
 
-import s from '@/styles/home.module.scss'
-import { col, R, G, B } from '@/utils/animation'
-import Lists from '@/components/lists'
 import TodoCard from '@/components/todoCard'
+import s from '@/styles/home.module.scss'
+import { B, col, G, R } from '@/utils/animation'
 
 const SPEED = 0.05
 
@@ -43,7 +43,44 @@ const Home = () => {
       <div className={s.hero}>
         <canvas ref={canvasRef} width='32px' height='32px' />
         <header className={s.header}>
-          <h1>test</h1>
+          <h1>lists</h1>
+          <div className={s.logo}>
+            <Image
+              src='/logo.svg'
+              alt='logo'
+              height='50%'
+              width='150rem'
+              layout='fixed'
+            />
+          </div>
+          <div className={s.profile}>
+            {status === 'loading' && (
+              <Image
+                src='/loader.svg'
+                alt='loader'
+                height='100%'
+                width='20rem'
+                layout='fixed'
+              />
+            )}
+            {status === 'authenticated' && (
+              <>
+                <div className={s.name}>{session.user?.name}</div>
+                <div className={s.dp}>
+                  {session.user?.image && (
+                    <Image
+                      src={session.user?.image}
+                      alt='dp'
+                      width='30rem'
+                      height='30rem'
+                      objectFit='contain'
+                      style={{ borderRadius: '50vh' }}
+                    />
+                  )}
+                </div>
+              </>
+            )}
+          </div>
           {/* <Lists session={session} status={status} /> */}
         </header>
         <div className={s.newItem}>
@@ -58,6 +95,7 @@ const Home = () => {
       <main className={s.main}>
         <h1 className={s.heading}>Your items</h1>
         <TodoCard initialCheck={true} text='your text' />
+        <div className={s.blob}></div>
       </main>
     </div>
   )
