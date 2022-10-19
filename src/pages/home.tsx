@@ -40,10 +40,24 @@ const Home = () => {
 
   return (
     <div className={s.home}>
+      <div className={s.addList}>
+        <div className={s.card}>
+          <div className={s.cardHeading}>Create a new List</div>
+          <div className={s.cardContent}>
+            <ul>
+              <li>a</li>
+              <li>b</li>
+              <li>c</li>
+              <li>d</li>
+              <li>e</li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <div className={s.hero}>
         <canvas ref={canvasRef} width='32px' height='32px' />
         <header className={s.header}>
-          <h1>lists</h1>
+          <div>bruh</div>
           <div className={s.logoContainer}>
             <Image
               src='/logo.svg'

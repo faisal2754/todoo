@@ -2,6 +2,76 @@
 
 .home {
   @include flex-col;
+  position: relative;
+
+  .addList {
+    @include flex;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(5px);
+
+    .card {
+      @include flex-col;
+      justify-content: space-between;
+      height: 70vh;
+      width: 40vw;
+      background-color: $clr-primary;
+      border-radius: $radius;
+      padding: 2rem;
+      padding-bottom: 4rem;
+
+      .cardHeading {
+        font-size: 2rem;
+        font-weight: 600;
+      }
+
+      .cardContent {
+        ul {
+          @include on-circle(
+            $item-count: 5,
+            $circle-size: 18rem,
+            $item-size: 5rem
+          );
+          margin: 0rem auto 0rem;
+          border: solid 5px white;
+          background-color: $clr-primary;
+
+          li {
+            @include flex;
+            max-width: 100%;
+            border-radius: 50%;
+            background-color: white;
+            transition: 0.15s;
+            color: $clr-primary;
+            cursor: pointer;
+
+            &:hover,
+            &:active {
+              border: 5px solid transparent;
+              border-radius: 50vh;
+              background-image: linear-gradient(white, white),
+                linear-gradient(
+                  to bottom right,
+                  #b827fc 0%,
+                  #2c90fc 25%,
+                  #b8fd33 50%,
+                  #fec837 75%,
+                  #fd1892 100%
+                );
+              background-origin: border-box;
+              background-clip: content-box, border-box;
+            }
+          }
+        }
+      }
+    }
+  }
 
   .hero {
     position: relative;
