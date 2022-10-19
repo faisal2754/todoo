@@ -1,5 +1,5 @@
 import { useSession } from 'next-auth/react'
-import Image from 'next/image'
+import Image from 'next/future/image'
 import { useEffect, useRef } from 'react'
 
 import TodoCard from '@/components/todoCard'
@@ -44,13 +44,13 @@ const Home = () => {
         <canvas ref={canvasRef} width='32px' height='32px' />
         <header className={s.header}>
           <h1>lists</h1>
-          <div className={s.logo}>
+          <div className={s.logoContainer}>
             <Image
               src='/logo.svg'
               alt='logo'
-              height='50%'
-              width='150rem'
-              layout='fixed'
+              width={150}
+              height={40}
+              className={s.logo}
             />
           </div>
           <div className={s.profile}>
@@ -58,23 +58,22 @@ const Home = () => {
               <Image
                 src='/loader.svg'
                 alt='loader'
-                height='100%'
-                width='20rem'
-                layout='fixed'
+                width={100}
+                height={100}
+                className={s.loader}
               />
             )}
             {status === 'authenticated' && (
               <>
                 <div className={s.name}>{session.user?.name}</div>
-                <div className={s.dp}>
+                <div className={s.dpContainer}>
                   {session.user?.image && (
                     <Image
                       src={session.user?.image}
                       alt='dp'
-                      width='30rem'
-                      height='30rem'
-                      objectFit='contain'
-                      style={{ borderRadius: '50vh' }}
+                      width={100}
+                      height={100}
+                      className={s.dp}
                     />
                   )}
                 </div>

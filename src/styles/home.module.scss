@@ -123,7 +123,9 @@
     .header {
       display: grid;
       grid-template-columns: 1fr auto 1fr;
+      grid-template-rows: 3rem;
       padding: 1rem;
+      height: 4rem;
       color: $clr-primary;
 
       .profile {
@@ -142,13 +144,30 @@
           }
         }
 
+        .logoContainer {
+          @include flex;
+          align-items: flex-start;
+          justify-content: flex-start;
+        }
+
+        .loader {
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+
         .name {
           margin-right: 0.5rem;
           font-weight: 600;
         }
 
-        .dp {
+        .dpContainer {
           @include flex;
+
+          .dp {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50vh;
+          }
         }
       }
     }
