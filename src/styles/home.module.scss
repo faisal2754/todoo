@@ -198,45 +198,76 @@
       height: 4rem;
       color: $clr-primary;
 
-      .profile {
-        @include flex;
-        justify-content: flex-end;
-        border: 2px solid $clr-primary;
-        border-radius: 50vh;
-        padding: 0.5rem 0.75rem;
+      .profileContainer {
         margin-left: auto;
-        cursor: default;
 
-        &:hover {
-          background-color: $clr-primary;
+        .profile {
+          @include flex;
+          justify-content: flex-end;
+          border: 2px solid $clr-primary;
+          border-radius: 50vh;
+          padding: 0.5rem 0.75rem;
+
+          cursor: default;
+
+          &:hover {
+            background-color: $clr-primary;
+            .name {
+              color: white;
+            }
+
+            & ~ .logout {
+              transition: all 0.4s ease-in-out;
+              transform-origin: top;
+              opacity: 1;
+              pointer-events: auto;
+            }
+          }
+
+          .logoContainer {
+            @include flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+          }
+
+          .loader {
+            width: 1.5rem;
+            height: 1.5rem;
+          }
+
           .name {
-            color: white;
+            margin-right: 0.5rem;
+            font-weight: 600;
+          }
+
+          .dpContainer {
+            @include flex;
+
+            .dp {
+              width: 2rem;
+              height: 2rem;
+              border-radius: 50vh;
+            }
           }
         }
 
-        .logoContainer {
-          @include flex;
-          align-items: flex-start;
-          justify-content: flex-start;
-        }
+        .logout {
+          opacity: 0;
+          pointer-events: none;
 
-        .loader {
-          width: 1.5rem;
-          height: 1.5rem;
-        }
+          width: 100%;
+          background-color: $clr-primary;
+          color: white;
+          border: 2px solid $clr-primary;
+          border-radius: 50vh;
+          padding: 0.5rem 0.75rem;
+          margin-top: 0.05rem;
+          text-align: center;
 
-        .name {
-          margin-right: 0.5rem;
-          font-weight: 600;
-        }
-
-        .dpContainer {
-          @include flex;
-
-          .dp {
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50vh;
+          &:hover {
+            opacity: 1;
+            pointer-events: auto;
+            cursor: pointer;
           }
         }
       }

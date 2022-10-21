@@ -3,6 +3,7 @@ import { signIn, useSession } from 'next-auth/react'
 
 import s from '@/styles/splash.module.scss'
 import { col, R, G, B } from '@/utils/animation'
+import Image from 'next/future/image'
 
 const SPEED = 0.05
 
@@ -44,19 +45,49 @@ const Splash = () => {
       <div className={s.container}>
         <canvas ref={canvasRef} width='32px' height='32px' />
         <main className={s.main}>
-          <h1>A Convenient Todo App</h1>
+          <div className={s.header}>
+            <div className={s.logoContainer}>
+              <Image
+                src='/logo-white.svg'
+                alt='logo'
+                width={150}
+                height={40}
+                className={s.logo}
+              />
+            </div>
+            <div className={s.slogan}>Organise your work.</div>
+          </div>
+          <div className={s.divider} />
           <div className={s.authContainer}>
             <button
               className={s.googleBtn}
               onClick={() => signIn('google', { callbackUrl: '/home' })}
             >
-              Sign in with Google
+              <div className={s.icon}>
+                <Image
+                  src='/google.svg'
+                  alt='logo'
+                  width={30}
+                  height={30}
+                  className={s.logo}
+                />
+              </div>
+              <div className={s.text}>Continue with Google</div>
             </button>
             <button
               className={s.githubBtn}
               onClick={() => signIn('github', { callbackUrl: '/home' })}
             >
-              Sign in with Github
+              <div className={s.icon}>
+                <Image
+                  src='/github.svg'
+                  alt='logo'
+                  width={30}
+                  height={30}
+                  className={s.logo}
+                />
+              </div>
+              <div className={s.text}>Continue with GitHub</div>
             </button>
           </div>
         </main>

@@ -1,6 +1,7 @@
 import { useSession } from 'next-auth/react'
 import Image from 'next/future/image'
 import { useEffect, useRef } from 'react'
+import { signOut } from 'next-auth/react'
 
 import TodoCard from '@/components/todoCard'
 import s from '@/styles/home.module.scss'
@@ -57,7 +58,7 @@ const Home = () => {
       <div className={s.hero}>
         <canvas ref={canvasRef} width='32px' height='32px' />
         <header className={s.header}>
-          <div>bruh</div>
+          <div>test</div>
           <div className={s.logoContainer}>
             <Image
               src='/logo.svg'
@@ -67,31 +68,39 @@ const Home = () => {
               className={s.logo}
             />
           </div>
-          <div className={s.profile}>
+          <div className={s.profileContainer}>
             {status === 'loading' && (
               <Image
                 src='/loader.svg'
                 alt='loader'
-                width={100}
-                height={100}
+                width={50}
+                height={50}
                 className={s.loader}
               />
             )}
             {status === 'authenticated' && (
-              <>
-                <div className={s.name}>{session.user?.name}</div>
-                <div className={s.dpContainer}>
-                  {session.user?.image && (
-                    <Image
-                      src={session.user?.image}
-                      alt='dp'
-                      width={100}
-                      height={100}
-                      className={s.dp}
-                    />
-                  )}
+              <div className={s.profileContainer}>
+                <div className={s.profile}>
+                  <div className={s.name}>{session.user?.name}</div>
+                  <div className={s.dpContainer}>
+                    {session.user?.image && (
+                      <Image
+                        src={session.user?.image}
+                        alt='dp'
+                        width={100}
+                        height={100}
+                        className={s.dp}
+                      />
+                    )}
+                  </div>
                 </div>
-              </>
+                <div
+                  className={s.logout}
+                  onClick={() => signOut({ callbackUrl: '/' })}
+                >
+                  Logout
+                </div>
+              </div>
             )}
           </div>
           {/* <Lists session={session} status={status} /> */}
