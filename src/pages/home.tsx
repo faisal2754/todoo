@@ -1,10 +1,10 @@
-import { useSession } from 'next-auth/react'
+import { GetServerSideProps } from 'next'
+import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/future/image'
 import { useEffect, useRef, useState } from 'react'
-import { signOut } from 'next-auth/react'
-import { ListType } from '@prisma/client'
 
 import TodoCard from '@/components/todoCard'
+import { getServerAuthSession } from '@/server/common/get-server-auth-session'
 import s from '@/styles/home.module.scss'
 import { B, col, G, R } from '@/utils/animation'
 
@@ -138,3 +138,20 @@ const Home = () => {
   )
 }
 export default Home
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = await getServerAuthSession({ req, res })
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: {},
+  }
+}
