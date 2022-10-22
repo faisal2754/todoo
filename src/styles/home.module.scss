@@ -212,12 +212,12 @@
 
         .select {
           position: relative;
-          width: 10rem;
+          width: 9rem;
           height: 2.75rem;
 
           &.isActive {
             .selectTrigger {
-              .icon {
+              .selectIcon {
                 transform: rotate(90deg);
               }
             }
@@ -246,7 +246,15 @@
           color: whitesmoke;
           padding: 0.7rem 0.8rem;
 
-          .icon {
+          .selectedList {
+            @include flex;
+
+            .icon {
+              margin-right: 0.5rem;
+            }
+          }
+
+          .selectIcon {
             transition: 0.25s all ease;
           }
         }
@@ -302,7 +310,7 @@
           justify-content: flex-end;
           border: 2px solid $clr-primary;
           border-radius: 50vh;
-          padding: 0.5rem 0.75rem;
+          padding: 0.3rem 0.75rem;
 
           cursor: default;
 

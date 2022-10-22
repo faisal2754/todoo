@@ -37,23 +37,23 @@
       overflow: hidden;
       z-index: 1;
       border: 2px solid rgba(0, 0, 0, 0.44);
-    }
 
-    label:before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      right: 0;
-      left: 0;
-      width: 70px;
-      height: 70px;
-      margin: 0 auto;
-      background-color: #fff;
-      transform: translateY(-50%);
-      border-radius: 50%;
-      box-shadow: inset 0 7px 10px #ffbeb8;
-      transition: 0.2s ease width, 0.2s ease height;
-      border: 1px solid black;
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 0;
+        left: 0;
+        width: 70px;
+        height: 70px;
+        margin: 0 auto;
+        background-color: #fff;
+        transform: translateY(-50%);
+        border-radius: 50%;
+        box-shadow: inset 0 7px 10px #ffbeb8;
+        transition: 0.2s ease width, 0.2s ease height;
+        border: 1px solid black;
+      }
     }
 
     label:hover:before {
@@ -76,34 +76,34 @@
       margin: 0 auto;
       margin-left: 14px;
       transform: rotateZ(-40deg);
-    }
 
-    .tick:before,
-    .tick:after {
-      content: '';
-      position: absolute;
-      background-color: #fff;
-      border-radius: 2px;
-      opacity: 0;
-      transition: 0.2s ease transform, 0.2s ease opacity;
-    }
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        background-color: #fff;
+        border-radius: 2px;
+        opacity: 0;
+        transition: 0.2s ease transform, 0.2s ease opacity;
+      }
 
-    .tick:before {
-      left: 0;
-      bottom: 0;
-      width: 10px;
-      height: 30px;
-      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.23);
-      transform: translateY(-68px);
-    }
+      &::before {
+        left: 0;
+        bottom: 0;
+        width: 10px;
+        height: 30px;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.23);
+        transform: translateY(-68px);
+      }
 
-    .tick:after {
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 10px;
-      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.23);
-      transform: translateX(78px);
+      &::after {
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 10px;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.23);
+        transform: translateX(78px);
+      }
     }
 
     input[type='checkbox']:checked + label {

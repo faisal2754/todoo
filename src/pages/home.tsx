@@ -2,25 +2,27 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/future/image'
 import { useEffect, useRef, useState } from 'react'
-import { List } from '@prisma/client'
+import { Item, List } from '@prisma/client'
 
 import { prisma } from '@/server/db/client'
 import TodoCard from '@/components/todoCard'
 import { getServerAuthSession } from '@/server/common/get-server-auth-session'
 import s from '@/styles/home.module.scss'
 import { B, col, G, R } from '@/utils/animation'
+import Head from 'next/head'
 
 const SPEED = 0.05
 
 const Home = ({
   lists,
+  items,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { data: session, status } = useSession()
   const [showCreateList, setShowCreateList] = useState(false)
   const [showList, setShowList] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  console.log(lists)
+  console.log(items)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -50,6 +52,9 @@ const Home = ({
 
   return (
     <div className={s.home}>
+      <Head>
+        <title>Home</title>
+      </Head>
       <div
         className={`${s.addList} ${!showCreateList && s.hidden}`}
         onClick={() => setShowCreateList(false)}
@@ -77,8 +82,20 @@ const Home = ({
                 onClick={() => setShowList(!showList)}
               >
                 <div className={s.selectTrigger}>
-                  <div className={s.text}>test</div>
-                  <div className={s.icon}>
+                  <div className={s.selectedList}>
+                    <Image
+                      src={lists[0]!.icon}
+                      alt='icon'
+                      width={20}
+                      height={20}
+                      className={s.icon}
+                    />
+                    <div className={s.text}>
+                      {lists[0]!.type.charAt(0) +
+                        lists[0]!.type.slice(1).toLowerCase()}
+                    </div>
+                  </div>
+                  <div className={s.selectIcon}>
                     <Image
                       src='/arrow.svg'
                       alt='arrow'
@@ -93,7 +110,7 @@ const Home = ({
                       <div key={idx} className={s.selectOption}>
                         <div className={s.icon}>
                           <Image
-                            src='/work.svg'
+                            src={list.icon}
                             alt='icon'
                             width={20}
                             height={20}
@@ -176,7 +193,16 @@ const Home = ({
       </div>
       <main className={s.main}>
         <h1 className={s.heading}>Your items</h1>
-        <TodoCard initialCheck={true} text='your text' />
+        {items.map((item, idx: number) => {
+          return (
+            <TodoCard
+              key={idx}
+              id={item.id}
+              initialCheck={item.completed}
+              text={item.description}
+            />
+          )
+        })}
         <div className={s.blob}></div>
       </main>
     </div>
@@ -184,8 +210,11 @@ const Home = ({
 }
 export default Home
 
+type ListWithIcon = List & { icon: string }
+
 type Props = {
-  lists: List[]
+  lists: ListWithIcon[]
+  items: Item[]
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({
@@ -203,13 +232,42 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
     }
   }
 
+  // get all lists
   const lists = await prisma.list.findMany({
     where: { userId: session.user?.id },
   })
 
+  const listsWithIcon: ListWithIcon[] = []
+  lists.forEach((list) => {
+    listsWithIcon.push({
+      ...list,
+      icon:
+        list.type === 'SPORTS'
+          ? '/sports.svg'
+          : list.type === 'WORK'
+          ? '/work.svg'
+          : list.type === 'SHOPPING'
+          ? '/shopping.svg'
+          : list.type === 'TRAVEL'
+          ? '/travel.svg'
+          : list.type === 'OTHER'
+          ? '/other.svg'
+          : '/other.svg',
+    })
+  })
+
+  // get all items
+  let items = Array<Item>()
+  if (lists.length > 0) {
+    items = await prisma.item.findMany({
+      where: { listId: lists[0]?.id },
+    })
+  }
+
   return {
     props: {
-      lists: lists,
+      lists: listsWithIcon,
+      items,
     },
   }
 }
