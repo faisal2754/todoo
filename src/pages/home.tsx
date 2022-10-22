@@ -1,7 +1,8 @@
 import { useSession } from 'next-auth/react'
 import Image from 'next/future/image'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { signOut } from 'next-auth/react'
+import { ListType } from '@prisma/client'
 
 import TodoCard from '@/components/todoCard'
 import s from '@/styles/home.module.scss'
@@ -11,6 +12,7 @@ const SPEED = 0.05
 
 const Home = () => {
   const { data: session, status } = useSession()
+  const [showCreateList, setShowCreateList] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -41,9 +43,12 @@ const Home = () => {
 
   return (
     <div className={s.home}>
-      <div className={s.addList}>
-        <div className={s.card}>
-          <div className={s.cardHeading}>Create a new List</div>
+      <div
+        className={`${s.addList} ${!showCreateList && s.hidden}`}
+        onClick={() => setShowCreateList(false)}
+      >
+        <div className={s.card} onClick={(e) => e.stopPropagation()}>
+          <div className={s.cardHeading}>Create a new list</div>
           <div className={s.cardContent}>
             <ul>
               <li>a</li>
@@ -58,7 +63,17 @@ const Home = () => {
       <div className={s.hero}>
         <canvas ref={canvasRef} width='32px' height='32px' />
         <header className={s.header}>
-          <div>test</div>
+          <div className={s.addListAction}>
+            <Image
+              src='/plus.svg'
+              alt='addList'
+              width={50}
+              height={50}
+              title='Create list'
+              className={s.addIcon}
+              onClick={() => setShowCreateList(true)}
+            />
+          </div>
           <div className={s.logoContainer}>
             <Image
               src='/logo.svg'
