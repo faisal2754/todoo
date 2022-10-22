@@ -1,8 +1,10 @@
-import { GetServerSideProps } from 'next'
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/future/image'
 import { useEffect, useRef, useState } from 'react'
+import { List } from '@prisma/client'
 
+import { prisma } from '@/server/db/client'
 import TodoCard from '@/components/todoCard'
 import { getServerAuthSession } from '@/server/common/get-server-auth-session'
 import s from '@/styles/home.module.scss'
@@ -10,10 +12,15 @@ import { B, col, G, R } from '@/utils/animation'
 
 const SPEED = 0.05
 
-const Home = () => {
+const Home = ({
+  lists,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { data: session, status } = useSession()
   const [showCreateList, setShowCreateList] = useState(false)
+  const [showList, setShowList] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  console.log(lists)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -63,7 +70,45 @@ const Home = () => {
       <div className={s.hero}>
         <canvas ref={canvasRef} width='32px' height='32px' />
         <header className={s.header}>
-          <div className={s.addListAction}>
+          <div className={s.listContainer}>
+            <div className={s.selectWrapper}>
+              <div
+                className={`${s.select} ${showList && s.isActive}`}
+                onClick={() => setShowList(!showList)}
+              >
+                <div className={s.selectTrigger}>
+                  <div className={s.text}>test</div>
+                  <div className={s.icon}>
+                    <Image
+                      src='/arrow.svg'
+                      alt='arrow'
+                      width={20}
+                      height={20}
+                    />
+                  </div>
+                </div>
+                <div className={s.selectOptions}>
+                  {lists.map((list, idx: number) => {
+                    return (
+                      <div key={idx} className={s.selectOption}>
+                        <div className={s.icon}>
+                          <Image
+                            src='/work.svg'
+                            alt='icon'
+                            width={20}
+                            height={20}
+                          />
+                        </div>
+                        <div className={s.text}>
+                          {list.type.charAt(0) +
+                            list.type.slice(1).toLowerCase()}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
             <Image
               src='/plus.svg'
               alt='addList'
@@ -139,7 +184,14 @@ const Home = () => {
 }
 export default Home
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+type Props = {
+  lists: List[]
+}
+
+export const getServerSideProps: GetServerSideProps<Props> = async ({
+  req,
+  res,
+}) => {
   const session = await getServerAuthSession({ req, res })
 
   if (!session) {
@@ -151,7 +203,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     }
   }
 
+  const lists = await prisma.list.findMany({
+    where: { userId: session.user?.id },
+  })
+
   return {
-    props: {},
+    props: {
+      lists: lists,
+    },
   }
 }
