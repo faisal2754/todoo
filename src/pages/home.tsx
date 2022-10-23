@@ -123,12 +123,12 @@ const Home = ({}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
         <canvas ref={canvasRef} width='32px' height='32px' />
         <header className={s.header}>
           <div className={s.listContainer}>
-            <div className={s.selectWrapper}>
-              <div
-                className={`${s.select} ${showList && s.isActive}`}
-                onClick={() => setShowList(!showList)}
-              >
-                {lists && lists.data && lists.data[0] && (
+            {lists && lists.data && lists.data[0] && (
+              <div className={s.selectWrapper}>
+                <div
+                  className={`${s.select} ${showList && s.isActive}`}
+                  onClick={() => setShowList(!showList)}
+                >
                   <>
                     <div className={s.selectTrigger}>
                       <div className={s.selectedList}>
@@ -174,9 +174,9 @@ const Home = ({}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
                       })}
                     </div>
                   </>
-                )}
+                </div>
               </div>
-            </div>
+            )}
             <Image
               src='/plus.svg'
               alt='addList'

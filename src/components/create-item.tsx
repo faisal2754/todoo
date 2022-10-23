@@ -30,6 +30,7 @@ type ItemCreate = {
 
 const CreateItem = ({ activeListId }: CreateItemProps) => {
   const [description, setDescription] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const createItemMutation = useMutation<
     CreateItemResponse,
@@ -40,6 +41,9 @@ const CreateItem = ({ activeListId }: CreateItemProps) => {
       return axios.post('/api/item/create', data)
     },
     {
+      onMutate: () => {
+        setIsLoading(true)
+      },
       onSuccess: () => {
         queryClient.invalidateQueries(['items'])
         setDescription('')
@@ -49,14 +53,17 @@ const CreateItem = ({ activeListId }: CreateItemProps) => {
         console.log(err)
         toast.error('Something went wrong :(')
       },
+      onSettled: () => {
+        setIsLoading(false)
+      },
     }
   )
 
-  const handleCreateItem = () => {
-    createItemMutation.mutate({
-      listId: activeListId,
-      description: description,
-    })
+  const handleCreateItem = (e: any) => {
+    if (e.type === 'keypress' && e.key !== 'Enter') return
+    if (description === '') return
+    if (isLoading) return
+    createItemMutation.mutate({ listId: activeListId, description })
   }
 
   return (
@@ -68,6 +75,7 @@ const CreateItem = ({ activeListId }: CreateItemProps) => {
             placeholder='Add an item'
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            onKeyPress={handleCreateItem}
           />
           <div className={s.icon} title='Add item' onClick={handleCreateItem}>
             +
