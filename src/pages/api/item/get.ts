@@ -8,7 +8,7 @@ import { prisma } from '@/server/db/client'
 type GetItemsResponse = {
   success: boolean
   data: Item[] | null
-  errors: any
+  errors: unknown
 }
 
 const ItemsGet = z.object({
@@ -28,7 +28,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   return res.status(200).json(data)
 }
 
-const getItems = async (rawData: any): Promise<GetItemsResponse> => {
+const getItems = async (rawData: unknown): Promise<GetItemsResponse> => {
   let items: Item[]
 
   try {

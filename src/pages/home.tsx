@@ -20,13 +20,13 @@ const SPEED = 0.05
 type GetListsResponse = {
   success: boolean
   data: ListWithIcon[]
-  errors: any
+  errors: unknown
 }
 
 type GetItemsResponse = {
   success: boolean
   data: Item[]
-  errors: any
+  errors: unknown
 }
 
 const fetchLists = async () => {

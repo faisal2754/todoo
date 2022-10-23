@@ -10,7 +10,7 @@ type ListWithIcon = List & { icon: string }
 type GetListsResponse = {
   success: boolean
   data: ListWithIcon[] | null
-  errors: any
+  errors: unknown
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
