@@ -6,6 +6,7 @@ import Image from 'next/future/image'
 import { toast } from 'react-toastify'
 import { typeToFlattenedError, z } from 'zod'
 
+import { queryClient } from '@/pages/_app'
 import s from '@/styles/create-list.module.scss'
 
 type CreateListProps = {
@@ -46,6 +47,7 @@ const CreateList = ({
     {
       onSuccess: () => {
         setShowCreateList(false)
+        queryClient.invalidateQueries(['lists'])
         toast.success('List created!')
       },
       onError: (err) => {

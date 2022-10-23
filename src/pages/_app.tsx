@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import '../styles/globals.scss'
 
-const queryClient = new QueryClient()
+export const queryClient = new QueryClient()
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,

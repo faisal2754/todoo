@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from 'next'
 import { List } from '@prisma/client'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { Session } from 'next-auth'
 
 import { getServerAuthSession } from '@/server/common/get-server-auth-session'
@@ -21,9 +21,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       .json({ success: false, data: null, errors: 'Unauthorized' })
   }
 
-  const lists = await getLists(session)
+  const data = await getLists(session)
 
-  return res.status(200).json(lists)
+  return res.status(200).json(data)
 }
 
 const getLists = async (session: Session): Promise<GetListsResponse> => {

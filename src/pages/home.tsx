@@ -1,10 +1,11 @@
 import { Item, List } from '@prisma/client'
+import { QueryFunctionContext, useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/future/image'
 import Head from 'next/head'
 import { useEffect, useRef, useState } from 'react'
-import axios from 'axios'
 import { toast } from 'react-toastify'
 
 import CreateList from '@/components/create-list'
@@ -13,7 +14,6 @@ import { getServerAuthSession } from '@/server/common/get-server-auth-session'
 import { prisma } from '@/server/db/client'
 import s from '@/styles/home.module.scss'
 import { B, col, G, R } from '@/utils/animation'
-import { useQuery } from '@tanstack/react-query'
 
 const SPEED = 0.05
 
@@ -23,13 +23,23 @@ type GetListsResponse = {
   errors: any
 }
 
+type GetItemsResponse = {
+  success: boolean
+  data: Item[]
+  errors: any
+}
+
 const fetchLists = async () => {
   return (await axios.post('/api/list/get')).data as GetListsResponse
 }
 
-const Home = ({
-  items,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const fetchItems = async ({ queryKey }: QueryFunctionContext) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, body] = queryKey
+  return (await axios.post('/api/item/get', body)).data as GetItemsResponse
+}
+
+const Home = ({}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { data: session, status } = useSession()
   const [showCreateList, setShowCreateList] = useState(false)
   const [showList, setShowList] = useState(false)
@@ -72,6 +82,21 @@ const Home = ({
         console.log(err)
         toast.error('Error fetching lists!')
       },
+    }
+  )
+
+  const { data: items } = useQuery<GetItemsResponse, Error>(
+    ['items', { listId: lists && lists.data[0] && lists.data[0].id }],
+    fetchItems,
+    {
+      onSuccess: (data) => {
+        console.log(data)
+      },
+      onError: (err) => {
+        console.log(err)
+        toast.error('Error fetching items!')
+      },
+      enabled: !!lists,
     }
   )
 
@@ -209,16 +234,18 @@ const Home = ({
       </div>
       <main className={s.main}>
         <h1 className={s.heading}>Your items</h1>
-        {items.map((item, idx: number) => {
-          return (
-            <TodoCard
-              key={idx}
-              id={item.id}
-              initialCheck={item.completed}
-              text={item.description}
-            />
-          )
-        })}
+        {items &&
+          items.data &&
+          items.data.map((item, idx: number) => {
+            return (
+              <TodoCard
+                key={idx}
+                id={item.id}
+                initialCheck={item.completed}
+                text={item.description}
+              />
+            )
+          })}
         <div className={s.blob}></div>
       </main>
     </div>
