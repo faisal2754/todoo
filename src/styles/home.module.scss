@@ -26,7 +26,7 @@
       width: 40vw;
       background-color: $clr-primary;
       border-radius: $radius;
-      padding: 2rem;
+      padding: 1.5rem;
       padding-bottom: 4rem;
 
       .cardHeading {
@@ -44,15 +44,28 @@
           margin: 0rem auto 0rem;
           border: solid 5px white;
           background-color: $clr-primary;
+          position: relative;
+
+          .text {
+            @include flex;
+            bottom: 0;
+            top: auto;
+            font-size: 1.25rem;
+            font-weight: 600;
+          }
 
           li {
             @include flex;
             max-width: 100%;
             border-radius: 50%;
             background-color: white;
-            transition: 0.15s;
+            transition: 0.1s;
             color: $clr-primary;
             cursor: pointer;
+
+            & > * {
+              filter: brightness(0);
+            }
 
             &:hover,
             &:active {
@@ -69,6 +82,66 @@
                 );
               background-origin: border-box;
               background-clip: content-box, border-box;
+            }
+          }
+
+          .work {
+            &:hover {
+              & ~ {
+                .text {
+                  &::before {
+                    content: 'Work';
+                  }
+                }
+              }
+            }
+          }
+
+          .shopping {
+            &:hover {
+              & ~ {
+                .text {
+                  &::before {
+                    content: 'Shopping';
+                  }
+                }
+              }
+            }
+          }
+
+          .travel {
+            &:hover {
+              & ~ {
+                .text {
+                  &::before {
+                    content: 'Travel';
+                  }
+                }
+              }
+            }
+          }
+
+          .sports {
+            &:hover {
+              & ~ {
+                .text {
+                  &::before {
+                    content: 'Sports';
+                  }
+                }
+              }
+            }
+          }
+
+          .other {
+            &:hover {
+              & ~ {
+                .text {
+                  &::before {
+                    content: 'Other';
+                  }
+                }
+              }
             }
           }
         }

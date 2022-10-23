@@ -1,7 +1,7 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/future/image'
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Item, List } from '@prisma/client'
 
 import { prisma } from '@/server/db/client'
@@ -21,8 +21,6 @@ const Home = ({
   const [showCreateList, setShowCreateList] = useState(false)
   const [showList, setShowList] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-
-  console.log(items)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -50,6 +48,10 @@ const Home = ({
     }
   }, [])
 
+  const handleCreateList = (e: React.MouseEvent<HTMLLIElement>) => {
+    console.log(e.currentTarget.dataset.id)
+  }
+
   return (
     <div className={s.home}>
       <Head>
@@ -63,11 +65,44 @@ const Home = ({
           <div className={s.cardHeading}>Create a new list</div>
           <div className={s.cardContent}>
             <ul>
-              <li>a</li>
-              <li>b</li>
-              <li>c</li>
-              <li>d</li>
-              <li>e</li>
+              <li className={s.work} data-id='work' onClick={handleCreateList}>
+                <Image
+                  src='/work.svg'
+                  alt='icon'
+                  width={35}
+                  height={35}
+                  className={s.icon}
+                />
+              </li>
+              <li
+                className={s.shopping}
+                data-id='shopping'
+                onClick={handleCreateList}
+              >
+                <Image src='/shopping.svg' alt='icon' width={35} height={35} />
+              </li>
+              <li
+                className={s.travel}
+                data-id='travel'
+                onClick={handleCreateList}
+              >
+                <Image src='/travel.svg' alt='icon' width={35} height={35} />
+              </li>
+              <li
+                className={s.sports}
+                data-id='sports'
+                onClick={handleCreateList}
+              >
+                <Image src='/sports.svg' alt='icon' width={35} height={35} />
+              </li>
+              <li
+                className={s.other}
+                data-id='other'
+                onClick={handleCreateList}
+              >
+                <Image src='/other.svg' alt='icon' width={35} height={35} />
+              </li>
+              <span className={s.text}></span>
             </ul>
           </div>
         </div>
