@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import s from '@/styles/todoCard.module.scss'
+import s from '@/styles/todo-card.module.scss'
 
 type TodoCardProps = {
   id: number

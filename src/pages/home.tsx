@@ -4,7 +4,7 @@ import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/future/image'
 import React, { useEffect, useRef, useState } from 'react'
 
-import TodoCard from '@/components/todoCard'
+import TodoCard from '@/components/todo-card'
 import { getServerAuthSession } from '@/server/common/get-server-auth-session'
 import { prisma } from '@/server/db/client'
 import s from '@/styles/home.module.scss'
