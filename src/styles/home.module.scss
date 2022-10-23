@@ -306,57 +306,6 @@
         }
       }
     }
-
-    .newItem {
-      position: absolute;
-      margin-left: auto;
-      margin-right: auto;
-      bottom: 8rem;
-      left: 0;
-      right: 0;
-      text-align: center;
-
-      .input {
-        position: relative;
-
-        input {
-          width: 50vw;
-          height: 5rem;
-          padding-left: 4.5rem;
-          font-size: 1.5rem;
-          border: none;
-          border-radius: $radius;
-
-          &:focus {
-            outline: none;
-            box-shadow: 0px 1px 17px 3px rgba(0, 0, 0, 0.57);
-            -webkit-box-shadow: 0px 1px 17px 3px rgba(0, 0, 0, 0.57);
-            -moz-box-shadow: 0px 1px 17px 3px rgba(0, 0, 0, 0.57);
-          }
-        }
-
-        .icon {
-          @include flex;
-          position: absolute;
-          top: 50%;
-          left: 26%;
-          transform: translateY(-50%);
-          border: 3px solid white;
-          border-radius: 50vh;
-          padding: 1rem;
-          height: 1px;
-          width: 1px;
-          color: white;
-          font-weight: 700;
-
-          &:hover {
-            cursor: pointer;
-            background-color: white;
-            color: $clr-primary;
-          }
-        }
-      }
-    }
   }
 
   .main {
@@ -366,6 +315,7 @@
     // width: 100%;
     max-width: 100vw;
     margin-top: -3rem;
+    margin-bottom: 3rem;
     position: relative;
 
     .heading {

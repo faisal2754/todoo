@@ -20,7 +20,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   res.status(200).json(result)
 }
 
-const createItem = async (rawData: any): Promise<CreateItemResponse> => {
+const createItem = async (rawData: unknown): Promise<CreateItemResponse> => {
   let item: Item | null
 
   try {

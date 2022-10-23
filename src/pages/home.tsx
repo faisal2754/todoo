@@ -14,6 +14,7 @@ import { getServerAuthSession } from '@/server/common/get-server-auth-session'
 import { prisma } from '@/server/db/client'
 import s from '@/styles/home.module.scss'
 import { B, col, G, R } from '@/utils/animation'
+import CreateItem from '@/components/create-item'
 
 const SPEED = 0.05
 
@@ -70,6 +71,14 @@ const Home = ({}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
       animate()
     }
   }, [])
+
+  useEffect(() => {
+    if (showCreateList) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+  }, [showCreateList])
 
   const { data: lists } = useQuery<GetListsResponse, Error>(
     ['lists'],
@@ -223,14 +232,7 @@ const Home = ({}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
             )}
           </div>
         </header>
-        <div className={s.newItem}>
-          <div className={s.input}>
-            <input type='text' placeholder='Add an item' />
-            <div className={s.icon} title='Add item'>
-              +
-            </div>
-          </div>
-        </div>
+        <CreateItem activeListId={1} />
       </div>
       <main className={s.main}>
         <h1 className={s.heading}>Your items</h1>

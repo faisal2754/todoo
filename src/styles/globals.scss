@@ -1,3 +1,22 @@
+@use './mixin' as *;
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 7.5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: $clr-primary;
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+  background: #6d6d6d;
+}
+
 /* Box sizing rules */
 *,
 *::before,
