@@ -4,11 +4,11 @@ import Head from 'next/head'
 import { getServerAuthSession } from '@/server/common/get-server-auth-session'
 import Splash from '../components/splash'
 
-const Home: NextPage = () => {
+const Index: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Todo App</title>
+        <title>Todoo</title>
         <meta name='description' content='Organise your work.' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
@@ -19,7 +19,7 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default Index
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await getServerAuthSession({ req, res })

@@ -2,20 +2,32 @@ import { Item, List } from '@prisma/client'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/future/image'
-import React, { useEffect, useRef, useState } from 'react'
+import Head from 'next/head'
+import { useEffect, useRef, useState } from 'react'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
+import CreateList from '@/components/create-list'
 import TodoCard from '@/components/todo-card'
 import { getServerAuthSession } from '@/server/common/get-server-auth-session'
 import { prisma } from '@/server/db/client'
 import s from '@/styles/home.module.scss'
 import { B, col, G, R } from '@/utils/animation'
-import Head from 'next/head'
-import CreateList from '@/components/create-list'
+import { useQuery } from '@tanstack/react-query'
 
 const SPEED = 0.05
 
+type GetListsResponse = {
+  success: boolean
+  data: ListWithIcon[]
+  errors: any
+}
+
+const fetchLists = async () => {
+  return (await axios.post('/api/list/get')).data as GetListsResponse
+}
+
 const Home = ({
-  lists,
   items,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { data: session, status } = useSession()
@@ -49,6 +61,20 @@ const Home = ({
     }
   }, [])
 
+  const { data: lists } = useQuery<GetListsResponse, Error>(
+    ['lists'],
+    fetchLists,
+    {
+      onSuccess: (data) => {
+        console.log(data)
+      },
+      onError: (err) => {
+        console.log(err)
+        toast.error('Error fetching lists!')
+      },
+    }
+  )
+
   return (
     <div className={s.home}>
       <Head>
@@ -57,6 +83,7 @@ const Home = ({
       <CreateList
         showCreateList={showCreateList}
         setShowCreateList={setShowCreateList}
+        session={session}
       />
       <div className={s.hero}>
         <canvas ref={canvasRef} width='32px' height='32px' />
@@ -67,49 +94,53 @@ const Home = ({
                 className={`${s.select} ${showList && s.isActive}`}
                 onClick={() => setShowList(!showList)}
               >
-                <div className={s.selectTrigger}>
-                  <div className={s.selectedList}>
-                    <Image
-                      src={lists[0]!.icon}
-                      alt='icon'
-                      width={20}
-                      height={20}
-                      className={s.icon}
-                    />
-                    <div className={s.text}>
-                      {lists[0]!.type.charAt(0) +
-                        lists[0]!.type.slice(1).toLowerCase()}
-                    </div>
-                  </div>
-                  <div className={s.selectIcon}>
-                    <Image
-                      src='/arrow.svg'
-                      alt='arrow'
-                      width={20}
-                      height={20}
-                    />
-                  </div>
-                </div>
-                <div className={s.selectOptions}>
-                  {lists.map((list, idx: number) => {
-                    return (
-                      <div key={idx} className={s.selectOption}>
-                        <div className={s.icon}>
-                          <Image
-                            src={list.icon}
-                            alt='icon'
-                            width={20}
-                            height={20}
-                          />
-                        </div>
+                {lists && lists.data && lists.data[0] && (
+                  <>
+                    <div className={s.selectTrigger}>
+                      <div className={s.selectedList}>
+                        <Image
+                          src={lists.data[0].icon}
+                          alt='icon'
+                          width={20}
+                          height={20}
+                          className={s.icon}
+                        />
                         <div className={s.text}>
-                          {list.type.charAt(0) +
-                            list.type.slice(1).toLowerCase()}
+                          {lists.data[0].type.charAt(0) +
+                            lists.data[0].type.slice(1).toLowerCase()}
                         </div>
                       </div>
-                    )
-                  })}
-                </div>
+                      <div className={s.selectIcon}>
+                        <Image
+                          src='/arrow.svg'
+                          alt='arrow'
+                          width={20}
+                          height={20}
+                        />
+                      </div>
+                    </div>
+                    <div className={s.selectOptions}>
+                      {lists.data.map((list, idx: number) => {
+                        return (
+                          <div key={idx} className={s.selectOption}>
+                            <div className={s.icon}>
+                              <Image
+                                src={list.icon}
+                                alt='icon'
+                                width={20}
+                                height={20}
+                              />
+                            </div>
+                            <div className={s.text}>
+                              {list.type.charAt(0) +
+                                list.type.slice(1).toLowerCase()}
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </>
+                )}
               </div>
             </div>
             <Image
@@ -166,7 +197,6 @@ const Home = ({
               </div>
             )}
           </div>
-          {/* <Lists session={session} status={status} /> */}
         </header>
         <div className={s.newItem}>
           <div className={s.input}>

@@ -1,15 +1,69 @@
+import { List, ListType } from '@prisma/client'
+import { useMutation } from '@tanstack/react-query'
+import axios from 'axios'
+import { Session } from 'next-auth'
 import Image from 'next/future/image'
+import { toast } from 'react-toastify'
+import { typeToFlattenedError, z } from 'zod'
 
 import s from '@/styles/create-list.module.scss'
 
 type CreateListProps = {
   showCreateList: boolean
   setShowCreateList: React.Dispatch<React.SetStateAction<boolean>>
+  session: Session | null
 }
 
-const CreateList = ({ showCreateList, setShowCreateList }: CreateListProps) => {
+const ZodListCreate = z.object({
+  userId: z.string(),
+  type: z.nativeEnum(ListType),
+})
+
+type CreateListResponse = {
+  success: boolean
+  data: List | null
+  errors: typeToFlattenedError<typeof ZodListCreate> | null
+}
+
+type ListCreate = {
+  userId: string
+  type: ListType
+}
+
+const CreateList = ({
+  showCreateList,
+  setShowCreateList,
+  session,
+}: CreateListProps) => {
+  const createListMutation = useMutation<
+    CreateListResponse,
+    CreateListResponse,
+    ListCreate
+  >(
+    (data) => {
+      return axios.post('/api/list/create', data)
+    },
+    {
+      onSuccess: () => {
+        setShowCreateList(false)
+        toast.success('List created!')
+      },
+      onError: (err) => {
+        console.log(err)
+        toast.error('Something went wrong :(')
+      },
+    }
+  )
+
   const handleCreateList = (e: React.MouseEvent<HTMLLIElement>) => {
-    console.log(e.currentTarget.dataset.id)
+    if (session?.user) {
+      createListMutation.mutate({
+        userId: session.user.id,
+        type: e.currentTarget.dataset.id?.toUpperCase() as ListType,
+      })
+    } else {
+      toast.error('Something went wrong :(')
+    }
   }
 
   return (
