@@ -17,7 +17,7 @@ type CreateListResponse = {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const result = await createList(req.body)
-  res.status(200).json(result)
+  return res.status(200).json(result)
 }
 
 const createList = async (rawData: unknown): Promise<CreateListResponse> => {

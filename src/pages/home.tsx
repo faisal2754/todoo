@@ -44,6 +44,8 @@ const Home = ({}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { data: session, status } = useSession()
   const [showCreateList, setShowCreateList] = useState(false)
   const [showList, setShowList] = useState(false)
+  const [activeListId, setActiveListId] = useState(1)
+  const [activeList, setActiveList] = useState<ListWithIcon>()
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -85,7 +87,10 @@ const Home = ({}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     fetchLists,
     {
       onSuccess: (data) => {
-        console.log(data)
+        if (data.data[0]) {
+          setActiveListId(data.data[0].id)
+          setActiveList(data.data[0])
+        }
       },
       onError: (err) => {
         console.log(err)
@@ -94,8 +99,12 @@ const Home = ({}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     }
   )
 
+  useEffect(() => {
+    setActiveList(lists?.data.find((list) => list.id === activeListId))
+  }, [activeListId, lists?.data])
+
   const { data: items } = useQuery<GetItemsResponse, Error>(
-    ['items', { listId: lists && lists.data[0] && lists.data[0].id }],
+    ['items', { listId: activeListId }],
     fetchItems,
     {
       onSuccess: (data) => {
@@ -123,7 +132,7 @@ const Home = ({}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
         <canvas ref={canvasRef} width='32px' height='32px' />
         <header className={s.header}>
           <div className={s.listContainer}>
-            {lists && lists.data && lists.data[0] && (
+            {lists && lists.data && lists.data[0] && activeList && (
               <div className={s.selectWrapper}>
                 <div
                   className={`${s.select} ${showList && s.isActive}`}
@@ -133,15 +142,15 @@ const Home = ({}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
                     <div className={s.selectTrigger}>
                       <div className={s.selectedList}>
                         <Image
-                          src={lists.data[0].icon}
+                          src={activeList.icon}
                           alt='icon'
                           width={20}
                           height={20}
                           className={s.icon}
                         />
                         <div className={s.text}>
-                          {lists.data[0].type.charAt(0) +
-                            lists.data[0].type.slice(1).toLowerCase()}
+                          {activeList.type.charAt(0) +
+                            activeList.type.slice(1).toLowerCase()}
                         </div>
                       </div>
                       <div className={s.selectIcon}>
@@ -156,7 +165,11 @@ const Home = ({}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
                     <div className={s.selectOptions}>
                       {lists.data.map((list, idx: number) => {
                         return (
-                          <div key={idx} className={s.selectOption}>
+                          <div
+                            key={idx}
+                            className={s.selectOption}
+                            onClick={() => setActiveListId(list.id)}
+                          >
                             <div className={s.icon}>
                               <Image
                                 src={list.icon}
@@ -232,7 +245,7 @@ const Home = ({}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
             )}
           </div>
         </header>
-        <CreateItem activeListId={1} />
+        <CreateItem activeListId={activeListId} />
       </div>
       <main className={s.main}>
         <h1 className={s.heading}>Your items</h1>
@@ -242,7 +255,7 @@ const Home = ({}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
             return (
               <TodoCard
                 key={idx}
-                id={item.id}
+                itemId={item.id}
                 initialCheck={item.completed}
                 text={item.description}
               />

@@ -3,12 +3,12 @@ import { useState } from 'react'
 import s from '@/styles/todo-card.module.scss'
 
 type TodoCardProps = {
-  id: number
+  itemId: number
   initialCheck: boolean
   text: string
 }
 
-const TodoCard = ({ id, initialCheck, text }: TodoCardProps) => {
+const TodoCard = ({ itemId, initialCheck, text }: TodoCardProps) => {
   const [checked, setChecked] = useState(initialCheck)
 
   const handleCheck = () => {
@@ -20,11 +20,11 @@ const TodoCard = ({ id, initialCheck, text }: TodoCardProps) => {
       <div className={s.check}>
         <input
           type='checkbox'
-          id={id as unknown as string}
+          id={itemId as unknown as string}
           checked={checked}
           onChange={handleCheck}
         />
-        <label htmlFor={id as unknown as string}>
+        <label htmlFor={itemId as unknown as string}>
           <div className={s.tick}></div>
         </label>
       </div>

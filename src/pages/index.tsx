@@ -2,7 +2,7 @@ import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 
 import { getServerAuthSession } from '@/server/common/get-server-auth-session'
-import Splash from '../components/splash'
+import Splash from '@/components/splash'
 
 const Index: NextPage = () => {
   return (
