@@ -1,18 +1,14 @@
 import { useEffect, useRef } from 'react'
-import { signIn, useSession } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 
 import s from '@/styles/splash.module.scss'
 import { col, R, G, B } from '@/utils/animation'
 import Image from 'next/future/image'
 
-const SPEED = 0.05
+const ANIMATION_SPEED = 0.05
 
 const Splash = () => {
-  const { data, status } = useSession()
   const canvasRef = useRef<HTMLCanvasElement>(null)
-
-  console.log(data)
-  console.log(status)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -32,7 +28,7 @@ const Splash = () => {
             col(ctx, x, y, R(x, y, t), G(x, y, t), B(x, y, t))
           }
         }
-        t = t + SPEED
+        t = t + ANIMATION_SPEED
         window.requestAnimationFrame(animate)
       }
 
