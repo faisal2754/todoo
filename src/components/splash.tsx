@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { signIn } from 'next-auth/react'
+import Image from 'next/future/image'
 
 import s from '@/styles/splash.module.scss'
 import { col, R, G, B } from '@/utils/animation'
-import Image from 'next/future/image'
 
 const ANIMATION_SPEED = 0.05
 

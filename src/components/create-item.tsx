@@ -1,13 +1,13 @@
 import { Item } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { toast } from 'react-toastify'
 import { typeToFlattenedError, z } from 'zod'
+import Image from 'next/future/image'
 
 import { queryClient } from '@/pages/_app'
 import s from '@/styles/create-item.module.scss'
-import Image from 'next/future/image'
 
 type CreateItemResponse = {
   success: boolean
@@ -27,9 +27,13 @@ type ItemCreate = {
 
 type CreateItemProps = {
   activeListId: number | undefined
+  setShowAddItemMessage: Dispatch<SetStateAction<boolean>>
 }
 
-const CreateItem = ({ activeListId }: CreateItemProps) => {
+const CreateItem = ({
+  activeListId,
+  setShowAddItemMessage,
+}: CreateItemProps) => {
   const [description, setDescription] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
@@ -48,6 +52,7 @@ const CreateItem = ({ activeListId }: CreateItemProps) => {
       onSuccess: () => {
         queryClient.invalidateQueries(['items'])
         setDescription('')
+        setShowAddItemMessage(false)
         toast.success('Item created!')
       },
       onError: (err) => {

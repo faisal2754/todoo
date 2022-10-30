@@ -44,6 +44,7 @@ const fetchItems = async ({
 
 const Home = () => {
   const { data: session, status } = useSession()
+  const [showAddItemMessage, setShowAddItemMessage] = useState(false)
   const [showCreateList, setShowCreateList] = useState(false)
   const [activeListId, setActiveListId] = useState<number>()
   const [activeList, setActiveList] = useState<ListWithIcon>()
@@ -105,7 +106,9 @@ const Home = () => {
     fetchItems,
     {
       onSuccess: (data) => {
-        console.log(data)
+        if (data.data.length === 0) {
+          setShowAddItemMessage(true)
+        }
       },
       onError: (err) => {
         console.log(err)
@@ -137,7 +140,10 @@ const Home = () => {
           setActiveList={setActiveList}
           setShowCreateList={setShowCreateList}
         />
-        <CreateItem activeListId={activeListId} />
+        <CreateItem
+          activeListId={activeListId}
+          setShowAddItemMessage={setShowAddItemMessage}
+        />
       </div>
       <main className={s.main}>
         <h1 className={s.heading}>Your items</h1>
@@ -161,7 +167,11 @@ const Home = () => {
               />
             )
           })}
-        <div className={s.blob}></div>
+        {showAddItemMessage && (
+          <div className={s.addItemMessage}>
+            Please add items to start tracking!
+          </div>
+        )}
       </main>
     </div>
   )
