@@ -30,14 +30,16 @@ type GetItemsResponse = {
   errors: unknown
 }
 
-const fetchLists = async () => {
-  return (await axios.post('/api/list/get')).data as GetListsResponse
+const fetchLists = async (): Promise<GetListsResponse> => {
+  return (await axios.post('/api/list/get')).data
 }
 
-const fetchItems = async ({ queryKey }: QueryFunctionContext) => {
+const fetchItems = async ({
+  queryKey,
+}: QueryFunctionContext): Promise<GetItemsResponse> => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, body] = queryKey
-  return (await axios.post('/api/item/get', body)).data as GetItemsResponse
+  return (await axios.post('/api/item/get', body)).data
 }
 
 const Home = ({}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
