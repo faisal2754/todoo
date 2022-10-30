@@ -10,6 +10,11 @@
   border: 1px solid white;
   border-radius: $radius;
 
+  &.blur {
+    filter: blur(2px);
+    pointer-events: none;
+  }
+
   .check {
     position: relative;
     scale: 0.3;
