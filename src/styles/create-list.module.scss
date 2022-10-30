@@ -22,8 +22,8 @@
     }
     @include flex-col;
     justify-content: space-between;
-    height: 70vh;
-    width: 40vw;
+    height: 60vh;
+    width: 35vw;
     background-color: $clr-primary;
     border-radius: $radius;
     padding: 1.5rem;
@@ -36,16 +36,10 @@
 
     .cardContent {
       ul {
-        $circle-size: 18rem;
-        $item-size: 5rem;
-        @include small-device {
-          $circle-size: 14rem;
-          $item-size: 4rem;
-        }
         @include on-circle(
           $item-count: 5,
-          $circle-size: $circle-size,
-          $item-size: $item-size
+          $circle-size: 15rem,
+          $item-size: 4rem
         );
         margin: 0rem auto 0rem;
         border: solid 5px white;
