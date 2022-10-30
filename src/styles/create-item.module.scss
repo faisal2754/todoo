@@ -13,6 +13,10 @@
     position: relative;
 
     input {
+      @include small-device {
+        height: 4rem;
+        width: 80vw;
+      }
       width: 50vw;
       height: 5rem;
       padding-left: 4.5rem;

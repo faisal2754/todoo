@@ -46,3 +46,9 @@ $radius: 10px;
     }
   }
 }
+
+@mixin small-device {
+  @media only screen and (max-width: 680px) {
+    @content;
+  }
+}
