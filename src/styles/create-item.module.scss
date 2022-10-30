@@ -16,6 +16,8 @@
       @include small-device {
         height: 4rem;
         width: 80vw;
+        padding-left: 3.5rem;
+        font-size: 1.25rem;
       }
       width: 50vw;
       height: 5rem;
@@ -32,24 +34,31 @@
       }
     }
 
-    .icon {
+    .addIcon {
+      @include small-device {
+        left: 12.5vw;
+        padding: 0.25rem;
+        width: 2rem;
+        height: 2rem;
+      }
       @include flex;
       position: absolute;
       top: 50%;
-      left: 26%;
+      left: 26.25%;
       transform: translateY(-50%);
-      border: 3px solid white;
       border-radius: 50vh;
-      padding: 1rem;
-      height: 1px;
-      width: 1px;
+      padding: 0.5rem;
+      width: 2.5rem;
+      height: 2.5rem;
       color: white;
       font-weight: 700;
+      background-color: white;
+      transition: 0.2s all ease-in-out;
 
       &:hover {
         cursor: pointer;
-        background-color: white;
-        color: $clr-primary;
+        filter: saturate(0);
+        transform: translateY(-50%) scale(1.1);
       }
     }
   }

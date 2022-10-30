@@ -1,6 +1,9 @@
 @use './mixin' as *;
 
 .header {
+  @include small-device {
+    grid-template-columns: 1fr 1fr;
+  }
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   grid-template-rows: 3rem;
@@ -106,6 +109,17 @@
       -webkit-box-shadow: 0px 1px 10px 3px rgba(80, 80, 80, 0.5);
       -moz-box-shadow: 0px 1px 10px 3px rgba(80, 80, 80, 0.5);
       cursor: pointer;
+      transition: 0.2s all ease-in-out;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  .logoContainer {
+    @include small-device {
+      display: none;
     }
   }
 

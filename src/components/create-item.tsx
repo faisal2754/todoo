@@ -7,6 +7,7 @@ import { typeToFlattenedError, z } from 'zod'
 
 import { queryClient } from '@/pages/_app'
 import s from '@/styles/create-item.module.scss'
+import Image from 'next/future/image'
 
 type CreateItemProps = {
   activeListId: number
@@ -77,9 +78,18 @@ const CreateItem = ({ activeListId }: CreateItemProps) => {
             onChange={(e) => setDescription(e.target.value)}
             onKeyPress={handleCreateItem}
           />
-          <div className={s.icon} title='Add item' onClick={handleCreateItem}>
+          {/* <div className={s.icon} title='Add item' onClick={handleCreateItem}>
             +
-          </div>
+          </div> */}
+          <Image
+            src='/plus-black.svg'
+            alt='addItem'
+            width={50}
+            height={50}
+            title='Add item'
+            className={s.addIcon}
+            onClick={handleCreateItem}
+          />
         </div>
       </div>
     </>
