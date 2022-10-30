@@ -18,8 +18,8 @@ type HeaderProps = {
   status: 'loading' | 'authenticated' | 'unauthenticated'
   session: Session | null
   lists: GetListsResponse | undefined
-  activeListId: number
-  setActiveListId: Dispatch<SetStateAction<number>>
+  activeListId: number | undefined
+  setActiveListId: Dispatch<SetStateAction<number | undefined>>
   activeList: ListWithIcon | undefined
   setActiveList: Dispatch<SetStateAction<ListWithIcon | undefined>>
   setShowCreateList: Dispatch<SetStateAction<boolean>>

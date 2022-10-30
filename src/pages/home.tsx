@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
+import Image from 'next/future/image'
 
 import CreateList from '@/components/create-list'
 import TodoCard from '@/components/todo-card'
@@ -44,7 +45,7 @@ const fetchItems = async ({
 const Home = () => {
   const { data: session, status } = useSession()
   const [showCreateList, setShowCreateList] = useState(false)
-  const [activeListId, setActiveListId] = useState(1)
+  const [activeListId, setActiveListId] = useState<number>()
   const [activeList, setActiveList] = useState<ListWithIcon>()
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -99,7 +100,7 @@ const Home = () => {
     }
   )
 
-  const { data: items } = useQuery<GetItemsResponse, Error>(
+  const items = useQuery<GetItemsResponse, Error>(
     ['items', { listId: activeListId }],
     fetchItems,
     {
@@ -140,9 +141,17 @@ const Home = () => {
       </div>
       <main className={s.main}>
         <h1 className={s.heading}>Your items</h1>
-        {items &&
-          items.data &&
-          items.data.map((item, idx: number) => {
+        {items.isLoading && (
+          <Image
+            src='/loader.svg'
+            alt='loader'
+            width={50}
+            height={50}
+            className={s.loader}
+          />
+        )}
+        {items.data &&
+          items?.data.data.map((item, idx: number) => {
             return (
               <TodoCard
                 key={idx}

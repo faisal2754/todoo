@@ -16,6 +16,10 @@
   }
 
   .card {
+    @include small-device {
+      height: 60vh;
+      width: 90vw;
+    }
     @include flex-col;
     justify-content: space-between;
     height: 70vh;
@@ -32,10 +36,16 @@
 
     .cardContent {
       ul {
+        $circle-size: 18rem;
+        $item-size: 5rem;
+        @include small-device {
+          $circle-size: 14rem;
+          $item-size: 4rem;
+        }
         @include on-circle(
           $item-count: 5,
-          $circle-size: 18rem,
-          $item-size: 5rem
+          $circle-size: $circle-size,
+          $item-size: $item-size
         );
         margin: 0rem auto 0rem;
         border: solid 5px white;

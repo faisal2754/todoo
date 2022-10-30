@@ -9,10 +9,6 @@ import { queryClient } from '@/pages/_app'
 import s from '@/styles/create-item.module.scss'
 import Image from 'next/future/image'
 
-type CreateItemProps = {
-  activeListId: number
-}
-
 type CreateItemResponse = {
   success: boolean
   data: Item | null
@@ -25,8 +21,12 @@ const ZodItemCreate = z.object({
 })
 
 type ItemCreate = {
-  listId: number
+  listId: number | undefined
   description: string
+}
+
+type CreateItemProps = {
+  activeListId: number | undefined
 }
 
 const CreateItem = ({ activeListId }: CreateItemProps) => {
@@ -78,9 +78,6 @@ const CreateItem = ({ activeListId }: CreateItemProps) => {
             onChange={(e) => setDescription(e.target.value)}
             onKeyPress={handleCreateItem}
           />
-          {/* <div className={s.icon} title='Add item' onClick={handleCreateItem}>
-            +
-          </div> */}
           <Image
             src='/plus-black.svg'
             alt='addItem'
