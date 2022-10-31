@@ -140,8 +140,11 @@
       height: 5rem;
     }
 
-    .addItemMessage {
+    .message {
       margin-top: 4rem;
+      border: 1px solid whitesmoke;
+      border-radius: $radius;
+      padding: 1rem;
     }
   }
 }

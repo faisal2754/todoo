@@ -45,6 +45,7 @@ const fetchItems = async ({
 const Home = () => {
   const { data: session, status } = useSession()
   const [showAddItemMessage, setShowAddItemMessage] = useState(false)
+  const [showCreateListMessage, setShowCreateListMessage] = useState(false)
   const [showCreateList, setShowCreateList] = useState(false)
   const [activeListId, setActiveListId] = useState<number>()
   const [activeList, setActiveList] = useState<ListWithIcon>()
@@ -89,6 +90,9 @@ const Home = () => {
     fetchLists,
     {
       onSuccess: (data) => {
+        if (data.data.length === 0) {
+          setShowCreateListMessage(true)
+        }
         if (data.data[0]) {
           setActiveListId(data.data[0].id)
           setActiveList(data.data[0])
@@ -106,7 +110,7 @@ const Home = () => {
     fetchItems,
     {
       onSuccess: (data) => {
-        if (data.data.length === 0) {
+        if (data.data?.length === 0) {
           setShowAddItemMessage(true)
         }
       },
@@ -157,7 +161,7 @@ const Home = () => {
           />
         )}
         {items.data &&
-          items?.data.data.map((item, idx: number) => {
+          items?.data.data?.map((item, idx: number) => {
             return (
               <TodoCard
                 key={idx}
@@ -168,8 +172,11 @@ const Home = () => {
             )
           })}
         {showAddItemMessage && (
-          <div className={s.addItemMessage}>
-            Please add items to start tracking!
+          <div className={s.message}>Please add items to start tracking!</div>
+        )}
+        {showCreateListMessage && (
+          <div className={s.message}>
+            Please create a new list to add items!
           </div>
         )}
       </main>
