@@ -67,6 +67,7 @@ const CreateItem = ({
 
   const handleCreateItem = (e: any) => {
     if (e.type === 'keypress' && e.key !== 'Enter') return
+    if (!activeListId) return toast.error('Please create a list!')
     if (description === '') return
     if (isLoading) return
     createItemMutation.mutate({ listId: activeListId, description })

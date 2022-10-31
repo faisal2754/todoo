@@ -142,7 +142,9 @@
 
     .message {
       margin-top: 4rem;
-      border: 1px solid whitesmoke;
+      background-color: whitesmoke;
+      font-weight: 600;
+      color: $clr-primary;
       border-radius: $radius;
       padding: 1rem;
     }
