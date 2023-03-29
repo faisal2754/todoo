@@ -12,6 +12,7 @@ import s from '@/styles/create-list.module.scss'
 type CreateListProps = {
   showCreateList: boolean
   setShowCreateList: React.Dispatch<React.SetStateAction<boolean>>
+  setShowCreateListMessage: React.Dispatch<React.SetStateAction<boolean>>
   session: Session | null
 }
 
@@ -34,6 +35,7 @@ type ListCreate = {
 const CreateList = ({
   showCreateList,
   setShowCreateList,
+  setShowCreateListMessage,
   session,
 }: CreateListProps) => {
   const createListMutation = useMutation<
@@ -47,6 +49,7 @@ const CreateList = ({
     {
       onSuccess: () => {
         setShowCreateList(false)
+        setShowCreateListMessage(false)
         queryClient.invalidateQueries(['lists'])
         toast.success('List created!')
       },

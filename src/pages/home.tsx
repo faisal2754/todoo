@@ -130,6 +130,7 @@ const Home = () => {
       <CreateList
         showCreateList={showCreateList}
         setShowCreateList={setShowCreateList}
+        setShowCreateListMessage={setShowCreateListMessage}
         session={session}
       />
       <div className={s.hero}>
